@@ -7,7 +7,6 @@ import 'package:mvvm_getx_pattern/app/services/app_translation.dart';
 class MainApp extends StatelessWidget {
   final AppTranslations translations;
   const MainApp({super.key, required this.translations});
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

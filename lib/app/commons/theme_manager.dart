@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ThemeManager {
-  Color primaryColor = const Color(0xFFC0E863);
+  Color primaryColor = const Color.fromARGB(255, 54, 93, 222);
   Color secondaryColor = const Color.fromARGB(255, 116, 197, 255);
   Color tertiaryColor = const Color.fromARGB(255, 255, 116, 116);
   Color backgroundColor = const Color(0xFFF8F8F8);
@@ -207,17 +207,26 @@ class ThemeManager {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(primaryColor),
-          foregroundColor: MaterialStateProperty.all(textColor),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
           elevation: MaterialStateProperty.all(0),
           fixedSize: MaterialStateProperty.all(
             const Size(double.infinity, 40),
           ),
+          minimumSize: MaterialStateProperty.all(
+            const Size(10, 20),
+          ),
+          textStyle: MaterialStateProperty.all(
+            const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           padding: MaterialStateProperty.all(
-            const EdgeInsets.all(10),
+            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(6),
               side: BorderSide(color: primaryColor, width: 0),
             ),
           ),
