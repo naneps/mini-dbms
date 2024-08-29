@@ -29,4 +29,21 @@ extension ColumnTypeExtension on ColumnType {
         return 'TEXT';
     }
   }
+
+  ColumnType fromValue(String value) {
+    switch (value) {
+      case 'INTEGER':
+        return ColumnType.INTEGER;
+      case 'TEXT':
+        return ColumnType.TEXT;
+      case 'REAL':
+        return ColumnType.REAL;
+      case 'BLOB':
+        return ColumnType.BLOB;
+      case 'NUMERIC':
+        return ColumnType.NUMERIC;
+      default:
+        return ColumnType.TEXT;
+    }
+  }
 }

@@ -13,8 +13,11 @@ class FormCreateTable extends GetView<FormCreateTableController> {
   });
 
   @override
+  get controller => Get.put(FormCreateTableController());
+  @override
   Widget build(BuildContext context) {
     return Container(
+      width: Get.width * 0.9,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -23,6 +26,7 @@ class FormCreateTable extends GetView<FormCreateTableController> {
       padding: const EdgeInsets.all(16),
       child: Obx(() {
         return Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Add New Table", style: Get.textTheme.titleLarge),
@@ -40,41 +44,52 @@ class FormCreateTable extends GetView<FormCreateTableController> {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: controller.table.value.columns!.length,
+              itemCount: controller.table.value.columns?.length,
               itemBuilder: (context, index) {
                 final column = controller.table.value.columns![index];
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter column name",
-                          border: OutlineInputBorder(),
+                return Container(
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Get.theme.primaryColor),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("${index + 1}. ", style: Get.textTheme.bodyMedium),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: TextField(
+                          decoration: const InputDecoration(
+                            hintText: "Enter column name",
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (value) {
+                            column.name = value;
+                            controller.table.refresh();
+                          },
                         ),
+                      ),
+                      const SizedBox(width: 10),
+                      DropdownButton<ColumnType>(
+                        value: column.type,
+                        hint: const Text("Select column type"),
+                        items: ColumnType.values.map((ColumnType type) {
+                          return DropdownMenuItem<ColumnType>(
+                            value: type,
+                            child: Text(type.value),
+                          );
+                        }).toList(),
                         onChanged: (value) {
-                          column.name = value;
+                          column.type = value;
                           controller.table.refresh();
                         },
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    DropdownButton<ColumnType>(
-                      value: column.type,
-                      hint: const Text("Select column type"),
-                      items: ColumnType.values.map((ColumnType type) {
-                        return DropdownMenuItem<ColumnType>(
-                          value: type,
-                          child: Text(type.value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        column.type = value;
-                        controller.table.refresh();
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                  ],
+                      const SizedBox(height: 10),
+                    ],
+                  ),
                 );
               },
             ),

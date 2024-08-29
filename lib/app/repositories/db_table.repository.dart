@@ -15,11 +15,7 @@ class DBTableRepository {
   }
 
   Future<void> createTable(String tableName, List<TableColumn> columns) async {
-    try {
-      await dbTableService.createTable(tableName, columns);
-    } catch (e) {
-      print('Error creating table $tableName: $e');
-    }
+    await dbTableService.createTable(tableName, columns);
   }
 
   Future<void> dropTable(String tableName) async {
@@ -43,7 +39,9 @@ class DBTableRepository {
     try {
       final result = await dbTableService.getTables();
       return result.map((table) {
-        return TableMetaData.fromMap(table);
+        return TableMetaData.fromMap(
+          table,
+        );
       }).toList();
     } catch (e) {
       print('Error getting tables for $dbName: $e');

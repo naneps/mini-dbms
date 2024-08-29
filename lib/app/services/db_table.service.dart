@@ -24,14 +24,27 @@ class DBTableService extends GetxService {
   Future<void> createTable(String tableName, List<TableColumn> columns) async {
     try {
       if (_database != null) {
-        String sql = _tableCreationSQL(tableName, columns);
-        await _database!.execute(sql);
-        print('Table $tableName created in database $_currentDbName.');
+        final List<Map<String, dynamic>> tableExists =
+            await _database!.rawQuery('''
+            SELECT name
+            FROM sqlite_master
+            WHERE type = 'table' AND name = ?
+          ''', [tableName]);
+
+        if (tableExists.isNotEmpty) {
+          throw Exception(
+              'Table $tableName already exists in database $_currentDbName.');
+        } else {
+          String sql = _tableCreationSQL(tableName, columns);
+          await _database!.execute(sql);
+          print('Table $tableName created in database $_currentDbName.');
+        }
       } else {
-        print('Database $_currentDbName is not open.');
+        throw Exception('Database $_currentDbName is not open.');
       }
     } catch (e) {
       print('Error creating table $tableName in database $_currentDbName: $e');
+      rethrow; // Melempar ulang exception agar bisa ditangkap di controller
     }
   }
 

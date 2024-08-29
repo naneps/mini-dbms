@@ -14,34 +14,36 @@ class XSnackBar {
     required String message,
     SnackBarType type = SnackBarType.info,
   }) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: type.textColor,
-                fontWeight: FontWeight.w500,
-              ),
-        ),
-        backgroundColor: type.backgroundColor,
-        margin: const EdgeInsets.all(10),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        showCloseIcon: true,
-        closeIconColor: type.textColor,
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            message,
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: type.textColor,
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
+          backgroundColor: type.backgroundColor,
+          margin: const EdgeInsets.all(10),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          showCloseIcon: true,
+          closeIconColor: type.textColor,
 
-        // action: SnackBarAction(
-        //   label: 'Close',
-        //   textColor: type.textColor,
-        //   onPressed: () {
-        //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        //   },
-        // ),
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-      ),
-    );
+          // action: SnackBarAction(
+          //   label: 'Close',
+          //   textColor: type.textColor,
+          //   onPressed: () {
+          //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          //   },
+          // ),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+        ),
+      );
   }
 }
 
